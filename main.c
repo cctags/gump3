@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <getopt.h>
+#include "main.h"
 
 /**
  * Global options.
@@ -116,6 +114,36 @@ int main(int argc, char * const argv[])
     {
         print_usage_info();
         goto Exit;
+    }
+
+    /* Init the keyboard and add the request keys. */
+    keyboard_init();
+    keyboard_request_ctrl_key('P');
+    keyboard_request_ctrl_key('C');
+    keyboard_request_ctrl_key('N');
+    keyboard_request_ctrl_key('F');
+    keyboard_request_ctrl_key('B');
+    keyboard_request_ctrl_key('L');
+    keyboard_request_ctrl_key('H');
+
+    while (1)
+    {
+        int buf[1024];
+        int i, sz = COUNTOF(buf);
+
+        keyboard_get_the_triggered_key(buf, &sz);
+
+        for (i = 0; i < sz; i++)
+        {
+            printf("%c\n", buf[i]);
+
+            if (buf[i] == 'C')
+            {
+                goto Exit;
+            }
+        }
+
+        Sleep(200);
     }
 
 Exit:
