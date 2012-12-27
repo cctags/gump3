@@ -8,9 +8,21 @@
 #include <assert.h>
 #include <windows.h>
 
+#include "list.h"
+
 #ifndef COUNTOF
 #define COUNTOF(_x)         (sizeof(_x) / sizeof((_x)[0]))
-#endif
+#endif /* COUNTOF */
+
+#ifndef SEEK_OFFSET
+#define SEEK_OFFSET       (5 * 1000)
+#endif /* SEEK_OFFSET */
+
+#define PLAY_INTERVAL     (100)
+
+#define STATUS_PLAYING      0x1
+#define STATUS_PAUSED       0x2
+#define STATUS_STOPPED      0x4
 
 typedef struct
 {
@@ -21,9 +33,31 @@ typedef struct
 
 void panic(char *msg);
 int generate_random_number();
+char* trim(char* input);
 
 int keyboard_init();
 int keyboard_request_ctrl_key(int key);
 void keyboard_get_the_triggered_key(int *buf, int *sz);
+
+void playlist_add(char *filename, int recursive);
+void playlist_add_from_list(char *filename);
+int playlist_is_empty();
+void playlist_init();
+void playlist_deinit();
+char *playlist_get_next();
+void playlist_shuffle();
+void playlist_random();
+
+MciNode *mci_open(char *filename);
+int mci_position(MciNode *pNode);
+void mci_set_volume(MciNode *pNode, int level);
+void mci_play(MciNode *pNode, int startms);
+void mci_close(MciNode *pNode);
+int mci_is_playing(MciNode *pNode);
+int mci_is_paused(MciNode *pNode);
+int mci_is_stopped(MciNode *pNode);
+void mci_pause(MciNode *pNode);
+void mci_resume(MciNode *pNode);
+void mci_stop(MciNode *pNode);
 
 #endif /* __MAIN_H__ */
