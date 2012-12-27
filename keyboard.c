@@ -123,7 +123,9 @@ static DWORD WINAPI _keyboard_thread_proc(LPVOID arg)
 
 int keyboard_init()
 {
-    HANDLE hThread;
+    static HANDLE s_hThread = NULL;
+
+    assert(NULL == s_hThread);
 
     /* Initialize the request ctrl key array. */
     memset(s_request_ctrl_key_array, 0, sizeof(s_request_ctrl_key_array));
@@ -131,8 +133,8 @@ int keyboard_init()
     InitializeCriticalSection(&s_keyboard_lock);
 
     /* Create the keyboard monitoring thread. */
-    hThread = CreateThread(NULL, 0, _keyboard_thread_proc, NULL, 0, NULL);
-    if (NULL == hThread)
+    s_hThread = CreateThread(NULL, 0, _keyboard_thread_proc, NULL, 0, NULL);
+    if (NULL == s_hThread)
     {
         return 1;
     }

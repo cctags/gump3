@@ -5,7 +5,7 @@ OBJS := $(patsubst %.c,%.o,$(SOURCE))
 DEPS := $(patsubst %.c,%.d~,$(SOURCE))
 
 CFLAGS=-Wall
-LIBS=
+LIBS=winmm
 
 ifdef DEBUG
 CFLAGS += -DDEBUG
