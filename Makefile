@@ -1,5 +1,8 @@
 APP=gump3.exe
 
+CC=gcc
+RM=rm -f
+
 SOURCE := $(wildcard *.c)
 OBJS := $(patsubst %.c,%.o,$(SOURCE))
 DEPS := $(patsubst %.c,%.d~,$(SOURCE))
@@ -13,17 +16,19 @@ else
 CFLAGS += -DNDEBUG
 endif
 
+CFLAGS += -MMD -MF
+
 all: $(APP)
 
 $(APP): $(OBJS)
-	gcc -o $(APP) $(OBJS) $(addprefix -l,$(LIBS))
+	$(CC) -o $(APP) $(OBJS) $(addprefix -l,$(LIBS))
 
 .SUFFIXES: .c
 
 .c.o:
-	gcc $(CFLAGS) -MMD -MF $*.d~ -c -o $@ $<
+	$(CC) $(CFLAGS) $*.d~ -c -o $@ $<
 
 clean:
-	rm -f *.o *.d~ $(APP)
+	$(RM) $(OBJS) $(DEPS) $(APP)
 
 -include $(DEPS)
