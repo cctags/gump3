@@ -15,8 +15,12 @@
 #endif /* COUNTOF */
 
 #ifndef SEEK_OFFSET
-#define SEEK_OFFSET       (5 * 1000)
+#define SEEK_OFFSET         (5 * 1000)
 #endif /* SEEK_OFFSET */
+
+#ifndef VOLUME_OFFSET
+#define VOLUME_OFFSET       100
+#endif /* VOLUME_OFFSET */
 
 #define INTERVAL_FRAGMENT   250
 #define INTERVAL_AUDIO_FILE 2000
@@ -54,6 +58,7 @@ void playlist_random();
 MciNode *mci_open(char *filename);
 int mci_position(MciNode *pNode);
 void mci_set_volume(MciNode *pNode, int level);
+int mci_get_volume(MciNode *pNode);
 void mci_play(MciNode *pNode, int startms);
 void mci_close(MciNode *pNode);
 int mci_is_playing(MciNode *pNode);

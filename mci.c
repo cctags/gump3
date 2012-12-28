@@ -119,7 +119,7 @@ int mci_position(MciNode *pNode)
 }
 
 /**
- * Set the volume between 0 and 100.
+ * Set the volume between 0 and 1000.
  */
 void mci_set_volume(MciNode *pNode, int level)
 {
@@ -132,9 +132,30 @@ void mci_set_volume(MciNode *pNode, int level)
         return;
     }
 
+    level = max(0, level);
+    level = min(1000, level);
+
     /* setaudio */
-    sprintf(cmd, "setaudio %s volume to %d", pNode->m_szAlias, level * 10);
+    sprintf(cmd, "setaudio %s volume to %d", pNode->m_szAlias, level);
     _mci_send(cmd, value);
+}
+
+int mci_get_volume(MciNode *pNode)
+{
+    char cmd[BUFFER_SIZE];
+    char value[BUFFER_SIZE];
+
+    if (NULL == pNode)
+    {
+        assert(0);
+        return 0;
+    }
+
+    /* setaudio */
+    sprintf(cmd, "status %s volume", pNode->m_szAlias);
+    _mci_send(cmd, value);
+
+    return atoi(value);
 }
 
 void mci_play(MciNode *pNode, int startms)

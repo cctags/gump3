@@ -17,6 +17,8 @@ static int control_flag_next = 0;
 static int control_flag_play_or_pause = 0;
 static int control_flag_forward = 0;
 static int control_flag_backward = 0;
+static int control_flag_volume_high = 0;
+static int control_flag_volume_low = 0;
 
 static char *s_version_info = \
     "Gump3 audio player. Version 0.4 (December, 2012).\n" \
@@ -113,6 +115,8 @@ static int _keyboard_handler()
             case 'N': control_flag_next = 1;            break;
             case 'F': control_flag_forward = 1;         break;
             case 'B': control_flag_backward = 1;        break;
+            case 'H': control_flag_volume_high = 1;     break;
+            case 'L': control_flag_volume_low = 1;      break;
             case 'C': return 1;                         break;
             default:                                    break;
         }
@@ -242,6 +246,7 @@ int main(int argc, char * const argv[])
     {
         int due_time, current_time, position = 0;
         int status = STATUS_STOPPED;
+        int volume = 0;
 
         filename = playlist_get_next();
 
@@ -272,6 +277,8 @@ int main(int argc, char * const argv[])
                 control_flag_next = 0;
                 control_flag_forward = 0;
                 control_flag_backward = 0;
+                control_flag_volume_high = 0;
+                control_flag_volume_low = 0;
 
                 /* play. */
                 if (control_flag_play_or_pause)
@@ -342,6 +349,25 @@ int main(int argc, char * const argv[])
                 }
 
                 mci_play(p, position);
+            }
+
+            /* volume. */
+            if (control_flag_volume_high || control_flag_volume_low)
+            {
+                volume = mci_get_volume(p);
+
+                if (control_flag_volume_high)
+                {
+                    volume += VOLUME_OFFSET;
+                    control_flag_volume_high = 0;
+                }
+                else if (control_flag_volume_low)
+                {
+                    volume -= VOLUME_OFFSET;
+                    control_flag_volume_low = 0;
+                }
+
+                mci_set_volume(p, volume);
             }
 
             current_time = GetTickCount();
