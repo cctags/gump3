@@ -356,7 +356,7 @@ int main(int argc, char * const argv[])
             _update_prompt_string(STATUS_PLAYING, position, p->m_nLengthMs);
 
 NextFragment:
-            Sleep(PLAY_INTERVAL);
+            Sleep(INTERVAL_FRAGMENT);
 
             quit_flag = _keyboard_handler();
             if (quit_flag)
@@ -372,12 +372,12 @@ NextOne:
         mci_close(p);
 
 Continue:
-        Sleep(PLAY_INTERVAL);
-
         if (quit_flag)
         {
             break;
         }
+
+        Sleep(INTERVAL_AUDIO_FILE);
     }
 
     playlist_deinit();

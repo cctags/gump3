@@ -52,6 +52,7 @@ MciNode *mci_open(char *filename)
     MciNode *pNode = NULL;
     char cmd[BUFFER_SIZE];
     char value[BUFFER_SIZE];
+    int ec = 0;
 
     assert(NULL != filename);
 
@@ -70,7 +71,11 @@ MciNode *mci_open(char *filename)
 
     /* open */
     sprintf(cmd, "open \"%s\" alias %s", pNode->m_szFileName, pNode->m_szAlias);
-    _mci_send(cmd, value);
+    ec = _mci_send(cmd, value);
+    if (ec != 0)
+    {
+        goto Exit;
+    }
 
     /* set */
     sprintf(cmd, "set %s time format milliseconds", pNode->m_szAlias);
@@ -80,6 +85,13 @@ MciNode *mci_open(char *filename)
     sprintf(cmd, "status %s length", pNode->m_szAlias);
     _mci_send(cmd, value);
     pNode->m_nLengthMs = atoi(value);
+
+Exit:
+    if (ec != 0)
+    {
+        free(pNode);
+        pNode = NULL;
+    }
 
     return pNode;
 }

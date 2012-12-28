@@ -18,7 +18,8 @@
 #define SEEK_OFFSET       (5 * 1000)
 #endif /* SEEK_OFFSET */
 
-#define PLAY_INTERVAL     (250)
+#define INTERVAL_FRAGMENT   250
+#define INTERVAL_AUDIO_FILE 2000
 
 #define STATUS_PLAYING      0x1
 #define STATUS_PAUSED       0x2
