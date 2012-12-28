@@ -2,6 +2,7 @@ APP=gump3.exe
 
 CC=gcc
 RM=rm -f
+CP=cp -v
 
 SOURCE := $(wildcard *.c)
 OBJS := $(patsubst %.c,%.o,$(SOURCE))
@@ -30,5 +31,8 @@ $(APP): $(OBJS)
 
 clean:
 	$(RM) $(OBJS) $(DEPS) $(APP)
+
+install:
+	$(CP) $(APP) $(HOME)/../bin/
 
 -include $(DEPS)
