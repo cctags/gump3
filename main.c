@@ -145,7 +145,6 @@ static void _update_prompt_string(int status, int position, int length)
 
     if (position > length)
     {
-        assert(0);
         position = length;
     }
 
