@@ -18,15 +18,17 @@
 #define SEEK_OFFSET       (5 * 1000)
 #endif /* SEEK_OFFSET */
 
-#define PLAY_INTERVAL     (100)
+#define PLAY_INTERVAL     (250)
 
 #define STATUS_PLAYING      0x1
 #define STATUS_PAUSED       0x2
 #define STATUS_STOPPED      0x4
 
+#define BUFFER_SIZE         (1 << 10)
+
 typedef struct
 {
-    char    m_szFileName[1024];
+    char    m_szFileName[BUFFER_SIZE];
     char    m_szAlias[32];
     int     m_nLengthMs;
 } MciNode;

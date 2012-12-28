@@ -3,7 +3,7 @@
 static int _mci_send(char *cmd, char *value)
 {
     int ec;
-    char buf[1024];
+    char buf[BUFFER_SIZE];
 
     assert(NULL != cmd);
     assert(NULL != value);
@@ -30,7 +30,7 @@ static int _mci_send(char *cmd, char *value)
 
 static int _mci_mode(MciNode *pNode, char *value)
 {
-    char cmd[1024];
+    char cmd[BUFFER_SIZE];
 
     if (NULL == pNode)
     {
@@ -50,8 +50,8 @@ static int _mci_mode(MciNode *pNode, char *value)
 MciNode *mci_open(char *filename)
 {
     MciNode *pNode = NULL;
-    char cmd[1024];
-    char value[1024];
+    char cmd[BUFFER_SIZE];
+    char value[BUFFER_SIZE];
 
     assert(NULL != filename);
 
@@ -86,8 +86,8 @@ MciNode *mci_open(char *filename)
 
 int mci_position(MciNode *pNode)
 {
-    char cmd[1024];
-    char value[1024];
+    char cmd[BUFFER_SIZE];
+    char value[BUFFER_SIZE];
 
     if (NULL == pNode)
     {
@@ -111,8 +111,8 @@ int mci_position(MciNode *pNode)
  */
 void mci_set_volume(MciNode *pNode, int level)
 {
-    char cmd[1024];
-    char value[1024];
+    char cmd[BUFFER_SIZE];
+    char value[BUFFER_SIZE];
 
     if (NULL == pNode)
     {
@@ -127,8 +127,8 @@ void mci_set_volume(MciNode *pNode, int level)
 
 void mci_play(MciNode *pNode, int startms)
 {
-    char cmd[1024];
-    char value[1024];
+    char cmd[BUFFER_SIZE];
+    char value[BUFFER_SIZE];
 
     if (NULL == pNode)
     {
@@ -143,8 +143,8 @@ void mci_play(MciNode *pNode, int startms)
 
 void mci_close(MciNode *pNode)
 {
-    char cmd[1024];
-    char value[1024];
+    char cmd[BUFFER_SIZE];
+    char value[BUFFER_SIZE];
 
     if (NULL == pNode)
     {
@@ -161,7 +161,7 @@ void mci_close(MciNode *pNode)
 
 int mci_is_playing(MciNode *pNode)
 {
-    char value[1024];
+    char value[BUFFER_SIZE];
 
     if (NULL == pNode)
     {
@@ -181,7 +181,7 @@ int mci_is_playing(MciNode *pNode)
 
 int mci_is_paused(MciNode *pNode)
 {
-    char value[1024];
+    char value[BUFFER_SIZE];
 
     if (NULL == pNode)
     {
@@ -201,7 +201,7 @@ int mci_is_paused(MciNode *pNode)
 
 int mci_is_stopped(MciNode *pNode)
 {
-    char value[1024];
+    char value[BUFFER_SIZE];
 
     if (NULL == pNode)
     {
@@ -221,8 +221,8 @@ int mci_is_stopped(MciNode *pNode)
 
 void mci_pause(MciNode *pNode)
 {
-    char cmd[1024];
-    char value[1024];
+    char cmd[BUFFER_SIZE];
+    char value[BUFFER_SIZE];
 
     if (NULL == pNode)
     {
@@ -237,8 +237,8 @@ void mci_pause(MciNode *pNode)
 
 void mci_resume(MciNode *pNode)
 {
-    char cmd[1024];
-    char value[1024];
+    char cmd[BUFFER_SIZE];
+    char value[BUFFER_SIZE];
 
     if (NULL == pNode)
     {
@@ -253,8 +253,8 @@ void mci_resume(MciNode *pNode)
 
 void mci_stop(MciNode *pNode)
 {
-    char cmd[1024];
-    char value[1024];
+    char cmd[BUFFER_SIZE];
+    char value[BUFFER_SIZE];
 
     if (NULL == pNode)
     {

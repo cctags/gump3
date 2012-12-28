@@ -100,7 +100,7 @@ static int _init_parameters(int argc, char * const argv[])
 
 static int _keyboard_handler()
 {
-    int buf[1024];
+    int buf[BUFFER_SIZE];
     int i, sz = COUNTOF(buf);
 
     keyboard_get_the_triggered_key(buf, &sz);
@@ -152,8 +152,8 @@ static void _update_prompt_string(int status, int position, int length)
     position = position / 1000 + 1;
     length = length / 1000 + 1;
 
-    index = (STATUS_PLAYING == status) ? (s_index / 5) : (4 + s_index / 5);
-    s_index = (s_index + 1) % (4 * 5);
+    index = (STATUS_PLAYING == status) ? s_index: (4 + s_index);
+    s_index = (s_index + 1) % 4;
 
     sprintf(buffer, "--> %d:%02d:%02d / %d:%02d:%02d [%02d%%], %s",
             position / 3600, (position % 3600) / 60, (position % 3600) % 60,
@@ -269,6 +269,11 @@ int main(int argc, char * const argv[])
         {
             if (STATUS_PAUSED == status)
             {
+                /* Ignore these requests for now. */
+                control_flag_next = 0;
+                control_flag_forward = 0;
+                control_flag_backward = 0;
+
                 /* play. */
                 if (control_flag_play_or_pause)
                 {

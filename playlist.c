@@ -13,7 +13,7 @@ enum
 
 struct _PlayNode
 {
-    char                m_szFileName[1024];
+    char                m_szFileName[BUFFER_SIZE];
     struct list_head    m_node;
 };
 
@@ -171,8 +171,8 @@ Exit:
 
 void playlist_add(char *filename, int recursive)
 {
-    char szCWD[1024];
-    char szFullPath[1024];
+    char szCWD[BUFFER_SIZE];
+    char szFullPath[BUFFER_SIZE];
     WIN32_FIND_DATA wfd;
     HANDLE hFind;
 
@@ -250,7 +250,7 @@ Exit:
 void playlist_add_from_list(char *filename)
 {
     FILE *fp;
-    char buffer[1024], *p;
+    char buffer[BUFFER_SIZE], *p;
 
     fp = fopen(filename, "r");
     if (NULL == fp)
