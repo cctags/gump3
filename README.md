@@ -1,6 +1,6 @@
 ## gump3 - a very simple audio player ##
 
-The latest version of this document can be found at [here](https://gitcafe.com/ctags/gump3/blob/master/README.md).
+The latest version of this document can be found at [here](https://github.com/cctags/gump3/blob/master/README.md).
 
 ### 1. Introduction ###
 
