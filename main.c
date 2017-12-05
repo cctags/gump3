@@ -42,7 +42,7 @@ static char *s_usage_info = \
     "Control keys:\n" \
     "   C-P   play / pause              C-C   stop\n" \
     "   C-N   play next audio file\n" \
-    "   C-F   foward 5 seconds          C-B   backward 5 seconds\n" \
+    "   C-F   forward 5 seconds         C-B   backward 5 seconds\n" \
     "   C-L   turn down the volume      C-H   turn up the volume\n";
 
 static void _print_version_info()

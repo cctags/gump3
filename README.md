@@ -34,7 +34,7 @@ Supported options [defaults in brackets]:
 Control keys:
    C-P   play / pause              C-C   stop
    C-N   play next audio file
-   C-F   foward 5 seconds          C-B   backward 5 seconds
+   C-F   forward 5 seconds         C-B   backward 5 seconds
    C-L   turn down the volume      C-H   turn up the volume
 </pre>
 
