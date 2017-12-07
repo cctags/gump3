@@ -17,6 +17,8 @@ static int control_flag_next = 0;
 static int control_flag_play_or_pause = 0;
 static int control_flag_forward = 0;
 static int control_flag_backward = 0;
+static int control_flag_forward_shift = 0;
+static int control_flag_backward_shift = 0;
 static int control_flag_volume_high = 0;
 static int control_flag_volume_low = 0;
 
@@ -43,6 +45,7 @@ static char *s_usage_info = \
     "   C-P   play / pause              C-C   stop\n" \
     "   C-N   play next audio file\n" \
     "   C-F   forward 5 seconds         C-B   backward 5 seconds\n" \
+    "   C-S-F forward 1 minute          C-S-B backward 1 minute\n" \
     "   C-L   turn down the volume      C-H   turn up the volume\n";
 
 static void _print_version_info()
@@ -109,16 +112,26 @@ static int _keyboard_handler()
 
     for (i = 0; i < sz; i++)
     {
-        switch (buf[i])
+        switch (buf[i] & 0xff)
         {
-            case 'P': control_flag_play_or_pause = 1;   break;
-            case 'N': control_flag_next = 1;            break;
-            case 'F': control_flag_forward = 1;         break;
-            case 'B': control_flag_backward = 1;        break;
-            case 'H': control_flag_volume_high = 1;     break;
-            case 'L': control_flag_volume_low = 1;      break;
-            case 'C': return 1;                         break;
-            default:                                    break;
+            case 'P': control_flag_play_or_pause = 1;           break;
+            case 'N': control_flag_next = 1;                    break;
+            case 'F':
+            {
+                control_flag_forward_shift = (buf[i] & 0x1000000);
+                control_flag_forward = 1;
+                break;
+            }
+            case 'B':
+            {
+                control_flag_backward_shift = (buf[i] & 0x1000000);
+                control_flag_backward = 1;
+                break;
+            }
+            case 'H': control_flag_volume_high = 1;             break;
+            case 'L': control_flag_volume_low = 1;              break;
+            case 'C': return 1;                                 break;
+            default:                                            break;
         }
     }
 
@@ -277,6 +290,8 @@ int main(int argc, char * const argv[])
                 control_flag_next = 0;
                 control_flag_forward = 0;
                 control_flag_backward = 0;
+                control_flag_forward_shift = 0;
+                control_flag_backward_shift = 0;
                 control_flag_volume_high = 0;
                 control_flag_volume_low = 0;
 
@@ -320,32 +335,45 @@ int main(int argc, char * const argv[])
             /* << / >> */
             if (control_flag_forward || control_flag_backward)
             {
+                int offset;
+
+                if (control_flag_forward_shift || control_flag_backward_shift)
+                {
+                    offset = SEEK_OFFSET_MINUTES;
+                }
+                else
+                {
+                    offset = SEEK_OFFSET;
+                }
+
                 if (control_flag_forward)
                 {
-                    if (current_time + SEEK_OFFSET >= due_time)
+                    if (current_time + offset >= due_time)
                     {
                         goto NextOne;
                     }
 
-                    due_time -= SEEK_OFFSET;
-                    position += SEEK_OFFSET;
+                    due_time -= offset;
+                    position += offset;
 
                     control_flag_forward = 0;
+                    control_flag_forward_shift = 0;
                 }
                 else if (control_flag_backward)
                 {
-                    if (position <= SEEK_OFFSET)
+                    if (position <= offset)
                     {
                         due_time += position;
                         position = 0;
                     }
                     else
                     {
-                        due_time += SEEK_OFFSET;
-                        position -= SEEK_OFFSET;
+                        due_time += offset;
+                        position -= offset;
                     }
 
                     control_flag_backward = 0;
+                    control_flag_backward_shift = 0;
                 }
 
                 mci_play(p, position);

@@ -46,6 +46,11 @@ static void _keyboard_key_event_proc(KEY_EVENT_RECORD ker)
 
         if (_keyboard_request_has_key(key) && (s_triggered_keys < COUNTOF(s_triggered_key_array)))
         {
+            if (ker.dwControlKeyState & SHIFT_PRESSED)
+            {
+                key |= 0x1000000;
+            }
+
             s_triggered_key_array[s_triggered_keys++] = key;
         }
 

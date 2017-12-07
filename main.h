@@ -18,6 +18,10 @@
 #define SEEK_OFFSET         (5 * 1000)
 #endif /* SEEK_OFFSET */
 
+#ifndef SEEK_OFFSET_MINUTES
+#define SEEK_OFFSET_MINUTES (60 * 1000)
+#endif /* SEEK_OFFSET_MINUTES */
+
 #ifndef VOLUME_OFFSET
 #define VOLUME_OFFSET       100
 #endif /* VOLUME_OFFSET */
