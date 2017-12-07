@@ -35,6 +35,7 @@ Control keys:
    C-P   play / pause              C-C   stop
    C-N   play next audio file
    C-F   forward 5 seconds         C-B   backward 5 seconds
+   C-S-F forward 1 minute          C-S-B backward 1 minute
    C-L   turn down the volume      C-H   turn up the volume
 </pre>
 
